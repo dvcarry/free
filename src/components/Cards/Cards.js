@@ -1,22 +1,25 @@
 import React from 'react';
 import Card from './Card';
 import { withRouter } from 'react-router-dom';
+import Animator from '../Animate/Animator';
 
 const Cards = props => {
-    
-    const questions = [{id: 1, title: 'Что делать?'}, {id: 2, title: 'Как делать'}]
-    questions.push({id: 0, title: 'Фрирайтинг'})
+
+    const cards = [...props.questions, { id: 0, name: 'Фрирайтинг' }]
 
     const createPost = id => {
         props.history.push('/post/' + id)
     }
 
-    const questionsPool = questions.map(item => <Card key={item.id} title={item.title} click={() => createPost(item.id)}/>)
+    const questionsPool = cards.map(item => <Card key={item.id} title={item.name} click={() => createPost(item.id)} />)
 
     return (
-        <div className='cards'>
-            {questionsPool}
-        </div>
+        <Animator>
+            <div className='cards'>
+                {questionsPool}
+            </div>
+        </Animator>
+
     )
 }
 

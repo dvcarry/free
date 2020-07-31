@@ -9,6 +9,7 @@
     "antd": "^4.3.2",
     "axios": "^0.19.2",
     "concurrently": "^5.2.0",
+    "framer-motion": "^2.3.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-expanding-textarea": "^2.2.0",

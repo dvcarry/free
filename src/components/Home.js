@@ -2,11 +2,14 @@ import React from 'react';
 import Header from './Header';
 import Cards from './Cards/Cards';
 
-const Home = () => {
+const Home = ({ questions }) => {
+
     return (
         <>
             <Header />
-            <Cards />
+            {
+                questions && <Cards questions={questions} />
+            }
         </>
     )
 }
