@@ -14,6 +14,7 @@ import { fetchTodayQuestions } from './data/api';
 import { AnimatePresence } from 'framer-motion';
 import { History } from './components/History/History';
 import { Read } from './components/Post/Read';
+import { Profile } from './components/Auth/Profile';
 
 function App() {
 
@@ -55,6 +56,7 @@ function App() {
                             <Route path='/answers' render={() => <History />} />
                             <Route path='/posts/:post_id' render={() => <Read />} />
                             <Route path='/auth' component={Auth} />
+                            <Route path='/profile' component={Profile} />
                             <Route render={() => <h1>404 not found</h1>} />
                             <Redirect to={"/"} />
                         </Switch>
