@@ -4,8 +4,15 @@ const pool = require("./src/db")
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const config = require('config')
+const path = require('path');
 
 app.use(express.json())
+
+app.use(express.static(path.join(__dirname, 'build')));
+
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 app.post("/registration", async (req, res) => {
     const today = new Date()
