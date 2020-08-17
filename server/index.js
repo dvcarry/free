@@ -10,8 +10,8 @@ app.use(express.json())
 
 app.use(express.static(path.join(__dirname, 'build')));
 
-app.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+app.get('/', function (req, res) {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 app.post("/registration", async (req, res) => {
@@ -19,10 +19,20 @@ app.post("/registration", async (req, res) => {
     try {
         const { email, password } = req.body
         const hashedPassword = await bcrypt.hash(password, 12)
-        const newUser = await pool.query(
-            "INSERT INTO users (email, password, dateofregistration, timer, symbols) VALUES($1, $2, $3, $4, $5) RETURNING *",
-            [email, hashedPassword, today, 15, 1000]);
-        res.sendStatus(200).json({ message: 'User done' })
+        const { rows: existedEmails } = await pool.query("SELECT email FROM users", [])
+        console.log("existedEmails", existedEmails)
+        if (existedEmails.some(item => item.email === email)) {
+            // res.sendStatus(200).json({ message: 'User exist' })
+            console.log('exi')
+            res.json({ message: 'User exist' })
+        } else {
+            const newUser = await pool.query(
+                "INSERT INTO users (email, password, dateofregistration, timer, symbols) VALUES($1, $2, $3, $4, $5) RETURNING *",
+                [email, hashedPassword, today, 15, 1000]);
+            res.sendStatus(200).json({ message: 'User done' })
+        }
+
+
     } catch (error) {
         console.log(error)
     }
@@ -69,14 +79,14 @@ app.get("/questions", async (req, res) => {
 app.get("/todayquestions/:user_id", async (req, res) => {
     try {
         const { user_id } = req.params
-        
+
         let finalQuestion
         const { rows: questions } = await pool.query("SELECT * FROM questions")
 
         if (user_id === 'null') {
             finalQuestion = questions
         } else {
-            const { rows: answers } = await pool.query("SELECT (question) FROM answers WHERE user_id = $1",[user_id])
+            const { rows: answers } = await pool.query("SELECT (question) FROM answers WHERE user_id = $1", [user_id])
             const onlyAnswers = answers.map(item => item.question)
             finalQuestion = questions.filter(item => !onlyAnswers.includes(item.name))
         }
@@ -122,7 +132,7 @@ app.get("/answers/:user_id", async (req, res) => {
 
 app.get('/posts/:post_id', async (req, res) => {
     try {
-        const {post_id} = req.params
+        const { post_id } = req.params
 
         const { rows: answer } = await pool.query("SELECT * FROM answers WHERE url = $1", [post_id])
         res.send(answer[0])
