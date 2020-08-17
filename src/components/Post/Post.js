@@ -27,13 +27,25 @@ const Post = props => {
             if (props.match.params.id === '0') {
                 setTitle('Фрирайтинг')
             } else {
+                console.log('ques', props.questions, props.match.params.id)
+                // if (!props.questions.some(item => item.id === +props.match.params.id)) {
+                //     throw console.error('dfdf');
+                // }
                 setTitle(props.questions.find(item => item.id === +props.match.params.id).name)
             }
         }
         getTitle()
     }, [props.match.params.id, props.questions])
 
+    useEffect(() => {
+        const postTimer = setInterval(() => setTimer(prevState => prevState + 1), 60000)
+        return () => clearInterval(postTimer)
+    }, [])
 
+    
+    useEffect(() => {
+        textareaRef.current.focus()
+    }, [])
 
     const textareaRef = useRef(null)
 
@@ -58,14 +70,8 @@ const Post = props => {
         changeVisible(false)
     };
 
-    useEffect(() => {
-        textareaRef.current.focus()
-    }, [])
 
-    useEffect(() => {
-        const postTimer = setInterval(() => setTimer(prevState => prevState + 1), 60000)
-        return () => clearInterval(postTimer)
-    }, [])
+
 
     return (
         <>

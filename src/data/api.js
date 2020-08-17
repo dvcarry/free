@@ -12,8 +12,7 @@ export const addNewUser = async (user) => {
 }
 
 export const login = async (user) => {
-    try {
- 
+    try { 
         return await Axios.post('login', user)                
     } catch (error) {
         console.log(error.message)

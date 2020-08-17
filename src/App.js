@@ -47,10 +47,7 @@ function App() {
                 <Menu />
                 <div className="App" >
                     <AnimatePresence>
-                        <Switch
-                            // location={location}
-                            // key={location.pathname}
-                        >
+                        <Switch>
                             <Route exact path='/' render={() => <Home questions={questions} />} />
                             <Route path='/post/:id' render={() => <Post questions={questions} getQuestions={getQuestions}/>} />
                             <Route path='/answers' render={() => <History />} />
@@ -61,7 +58,6 @@ function App() {
                             <Redirect to={"/"} />
                         </Switch>
                     </AnimatePresence>
-
                 </div>
             </BrowserRouter>
         </AuthContext.Provider>

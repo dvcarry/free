@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { addNewUser, login } from '../../data/api';
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button } from 'antd';
 import { useHistory } from 'react-router-dom';
 import { AuthContext } from './AuthContext';
 
@@ -10,11 +10,21 @@ const Auth = () => {
     const auth = useContext(AuthContext)
 
     const history = useHistory()
+    console.log("Auth -> history", history)
     const [page, changePage] = useState('reg')
+    const [error, setError] = useState(null)
 
     const regHandler = async inputData => {
+        setError(null)
+        console.log("Auth -> inputData", inputData)
         try {
-            await addNewUser(inputData)
+            const reply = await addNewUser(inputData)
+            if (reply.data.error) {
+                setError(reply.data.error)
+            } else {
+                loginHandler(inputData)
+            }
+            console.log("Auth -> reply", reply)
         } catch (error) {
             console.log(error)
         }
@@ -29,7 +39,11 @@ const Auth = () => {
             const user = await login(inputData)
             console.log("Auth -> user", user.data)
             auth.login(user.data.token, user.data.userId, user.data.user)
-            history.push('/')
+            const location = history.location.pathname
+            if (location === '/reg' || location === '/auth') {           
+                history.push('/')
+            }
+            
         } catch (error) {
             console.log(error)
         }
@@ -44,8 +58,15 @@ const Auth = () => {
     }
 
     return (
-        <>
-            <h2>{page === 'reg' ? 'Регистрация' : 'Авторизация'}</h2>
+        <div className='auth'>
+            <div>
+                <h2>{page === 'reg' ? 'Регистрация' : 'Авторизация'}</h2>
+                {
+                    page === 'reg' ? <p>Регистрация позволит сохранять свои истории.</p> : null
+                }
+
+            </div>
+
             <Form
                 // wrapperCol={{ span: 10 }}
                 onFinish={page === 'reg' ? regHandler : loginHandler}
@@ -78,29 +99,34 @@ const Auth = () => {
                 >
                     <Input.Password size="large" placeholder="пароль" />
                 </Form.Item>
-
                 {
-                    page === 'reg' && (
-                        <Form.Item>
-                            <Checkbox>Согласен с условиями</Checkbox>
-                        </Form.Item>
-                    )
+                    error && <p className='text_medium'>Пользователь с такой почтой существует.</p>
                 }
 
+
                 <Form.Item>
-                    <button htmlType="submit">
+                    {/* <button htmlType="submit">
                         {page === 'reg' ? 'Зарегистрироваться' : 'Войти'}
-                    </button>
+                    </button> */}
                     <Button block type="primary" htmlType="submit">
                         {page === 'reg' ? 'Зарегистрироваться' : 'Войти'}
                     </Button>
-                    <Button type="link" htmlType="button" onClick={pageHandler}>
-                        {page === 'reg' ? 'Есть аккаунт?' : 'Нет аккаунта?'}
-                    </Button>
+
                 </Form.Item>
+                {
+                    page === 'reg' && (
+                        // <Form.Item>
+                        //     <Checkbox>Согласен с условиями</Checkbox>
+                        // </Form.Item>
+                        <p className='text_small'>Нажимая кнопку «Зарегистрироваться», я принимаю условия Пользовательского соглашения</p>
+                    )
+                }
+                <Button type="link" htmlType="button" onClick={pageHandler}>
+                    {page === 'reg' ? 'Есть аккаунт?' : 'Нет аккаунта?'}
+                </Button>
 
             </Form>
-        </>
+        </div>
     )
 }
 
