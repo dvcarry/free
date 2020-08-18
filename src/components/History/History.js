@@ -5,12 +5,12 @@ import { useContext } from 'react';
 import { AuthContext } from '../Auth/AuthContext';
 import { fetchGetAnswers } from '../../data/api';
 import { Answer } from './Answer';
+import { NavLink } from 'react-router-dom';
 
 export const History = () => {
 
-    const [answers, setAnswers] = useState(null)
+    const [answers, setAnswers] = useState([])
     const [loading, setLoading] = useState(false)
-    console.log("History -> answers", answers)
 
     const auth = useContext(AuthContext)
 
@@ -25,14 +25,15 @@ export const History = () => {
             getAnswers()
         }
 
-    }, [auth.userId])
+    }, [auth.userId])    
 
     if (loading) return <p>...</p>
 
     return (
         <div>
+            <p><NavLink to='/'>Перейти к вопросам</NavLink></p>
             {
-                answers 
+                answers.length > 0
                 ? answers.map(item => <Answer {...item}/>)
                 : <p>Нет ни одной записи. Стоит только начать.</p>
             }

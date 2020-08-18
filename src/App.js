@@ -15,14 +15,13 @@ import { AnimatePresence } from 'framer-motion';
 import { History } from './components/History/History';
 import { Read } from './components/Post/Read';
 import { Profile } from './components/Auth/Profile';
+import { About } from './components/Layout/About';
 
 function App() {
 
     const [questions, setQuestions] = useState(null)
     const { token, userId, login, logout, user } = useAuth()
-    console.log("App -> userId", userId)
     const isAuthenticated = !!token
-
 
     const getQuestions = async () => {
         const { data: allQuestions } = await fetchTodayQuestions(userId)
@@ -30,16 +29,8 @@ function App() {
     }
 
     useEffect(() => {
-        // const getQuestions = async () => {
-        //     const { data: allQuestions } = await fetchTodayQuestions(userId)
-        //     console.log("getQuestions -> allQuestions", allQuestions)
-        //     setQuestions(allQuestions)
-        // }
         getQuestions()
-    }, [userId])
-
-
-
+    }, [])
 
     return (
         <AuthContext.Provider value={{ token, userId, login, logout, user, isAuthenticated }}>
@@ -54,6 +45,7 @@ function App() {
                             <Route path='/posts/:post_id' render={() => <Read />} />
                             <Route path='/auth' component={Auth} />
                             <Route path='/profile' component={Profile} />
+                            <Route path='/about' component={About} />
                             <Route render={() => <h1>404 not found</h1>} />
                             <Redirect to={"/"} />
                         </Switch>

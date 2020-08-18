@@ -10,8 +10,10 @@
 }
 
 html {
-	box-sizing: border-box;
+  box-sizing: border-box;
+  font-size: 62.5%;
 }
+
 
 .App {
   max-width: 1000px;
@@ -21,13 +23,14 @@ html {
 }
 
 p {
-  font-size: 18px;
+  font-size: 1.4em;
+  white-space: pre-line;
 }
 
 h1 {
   font-weight: 700;
   margin-bottom: 20px;
-  font-size: 64px;
+  font-size: 4.8em;
   line-height: 1.1em;
 }
 
@@ -52,7 +55,6 @@ h2 {
 
 .cards {
   display: grid;  
-  /* grid-template-columns: repeat(3, 1fr); */
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));;
   grid-gap: 20px;
   margin-top: 30px;
@@ -71,16 +73,11 @@ h2 {
   box-shadow: 20px 38px 34px -26px hsla(0,0%,0%,.2);
   border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
   border: solid 2px #41403E;
-  /* box-shadow: 0px 2px 5px 1px rgba(34, 60, 80, 0.1); */
-  /* border-radius: 10px; */
 }
 
 
 
 .card:hover {
-  /* -webkit-box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
--moz-box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
-box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2); */
 box-shadow:2px 8px 4px -6px hsla(0,0%,0%,.3);
 }
 
@@ -137,6 +134,15 @@ textarea {
   padding: 0 20px;
 }
 
+.menu_right {
+  display: flex;
+  align-items: center;
+}
+
+.menu a {
+  margin-left: 20px;
+}
+
 .answer {
   padding: 30px;
   margin-bottom: 30px;
@@ -174,12 +180,22 @@ a {
   color: black
 }
 
-p {
-  white-space: pre-line;
+li {
+  font-size: 1.4em;
 }
+
 
 .auth {
   margin: 0 auto;
   max-width: 500px;
   text-align: center;
+}
+
+@media all and (max-width: 425px) {
+  h1 {
+    font-size: 2.8em;
+  }
+  p {
+    font-size: 1em;
+  }
 }

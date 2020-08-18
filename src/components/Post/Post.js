@@ -4,7 +4,7 @@ import Textarea from 'react-expanding-textarea'
 import { AuthContext } from '../Auth/AuthContext';
 import { Modal } from 'antd';
 import Auth from '../Auth/Auth';
-import { fetchAddAnswers } from './../../data/api'
+import { fetchAddAnswers, fetchQuestions } from './../../data/api'
 import Animator from '../Animate/Animator';
 
 const Post = props => {
@@ -20,18 +20,18 @@ const Post = props => {
     const userSymbols = auth.user ? auth.user.symbols : 1100
     const userTimer = auth.user ? auth.user.timer : 16
 
-    
-
     useEffect(() => {
         const getTitle = async () => {
             if (props.match.params.id === '0') {
                 setTitle('Фрирайтинг')
             } else {
-                console.log('ques', props.questions, props.match.params.id)
-                // if (!props.questions.some(item => item.id === +props.match.params.id)) {
-                //     throw console.error('dfdf');
-                // }
-                setTitle(props.questions.find(item => item.id === +props.match.params.id).name)
+                if (props.questions && props.questions.find(item => item.id === +props.match.params.id)) {
+                    setTitle(props.questions.find(item => item.id === +props.match.params.id).name)
+                } else {
+                    const { data: allQuestions } = await fetchQuestions()
+                    setTitle(allQuestions.find(item => item.id === +props.match.params.id).name)
+                }
+
             }
         }
         getTitle()
@@ -42,7 +42,7 @@ const Post = props => {
         return () => clearInterval(postTimer)
     }, [])
 
-    
+
     useEffect(() => {
         textareaRef.current.focus()
     }, [])
@@ -61,7 +61,7 @@ const Post = props => {
             const date = new Date()
             fetchAddAnswers(auth.userId, title, text, date)
             props.getQuestions()
-            props.history.push("/")
+            props.history.push("/answers")
         }
 
     }
@@ -69,9 +69,6 @@ const Post = props => {
     const handleCancel = e => {
         changeVisible(false)
     };
-
-
-
 
     return (
         <>
@@ -88,10 +85,8 @@ const Post = props => {
                 />
             </Animator>
             <div className="panel">
-                {/* <Button onClick={clickHandler}>Сохранить</Button> */}
                 <button onClick={clickHandler}>Сохранить</button>
                 <div className="panel_numbers">
-                    {/* <span>{symbols}/2 000 сим.</span> */}
                     <span
                         className={symbols > userSymbols ? 'done' : 'undone'}
                     >
@@ -100,16 +95,15 @@ const Post = props => {
                     <span
                         className={timer > userTimer ? 'done' : 'undone'}
                     >{`${timer}/${userTimer} мин.`}</span>
-                    {/* <span>{timer}/15 мин.</span> */}
                 </div>
             </div>
 
-            <Modal                
+            <Modal
                 visible={modalVisible}
                 onCancel={handleCancel}
                 footer={null}
             >
-                <Auth />
+                <Auth changeVisible={changeVisible} />
             </Modal>
         </>
 

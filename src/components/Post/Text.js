@@ -5,8 +5,7 @@ const MyTextarea = () => {
   const textareaRef = useRef(null)
 
   const handleChange = useCallback(e => {
-    props.n
-    console.log('Changed value to: ', e.target.value)
+
   }, [])
 
   useEffect(() => {

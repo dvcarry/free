@@ -16,7 +16,6 @@ export const Read = () => {
         setLoading(true)
         const getAnswer = async () => {
             const { data } = await fetchGetAnswer(post_id)
-            console.log("getAnswer -> data", data)
             setPost(data)
             setLoading(false)
         }

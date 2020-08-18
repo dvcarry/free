@@ -44,7 +44,6 @@ export const fetchAddAnswers = async (user_id, question, text, date) => {
 }
 
 export const fetchGetAnswers = async (user_id) => {
-    console.log("fetchGetAnswers -> user_id", user_id)
     try { 
         return await Axios.get('answers/' + user_id)                
     } catch (error) {

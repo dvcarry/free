@@ -20,16 +20,13 @@ app.post("/registration", async (req, res) => {
         const { email, password } = req.body
         const hashedPassword = await bcrypt.hash(password, 12)
         const { rows: existedEmails } = await pool.query("SELECT email FROM users", [])
-        console.log("existedEmails", existedEmails)
         if (existedEmails.some(item => item.email === email)) {
-            // res.sendStatus(200).json({ message: 'User exist' })
-            console.log('exi')
             res.json({ error: 'User exist' })
         } else {
             const newUser = await pool.query(
                 "INSERT INTO users (email, password, dateofregistration, timer, symbols) VALUES($1, $2, $3, $4, $5) RETURNING *",
                 [email, hashedPassword, today, 15, 1000]);
-            res.sendStatus(200).json({ message: 'User done' })
+            res.sendStatus(200)
         }
 
 

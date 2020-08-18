@@ -6,7 +6,6 @@ import { useHistory } from 'react-router-dom';
 export const Profile = () => {
 
     const auth = useContext(AuthContext)
-    console.log("Profile -> auth", auth)
     const history = useHistory()
 
     const clickHandler = () => {
