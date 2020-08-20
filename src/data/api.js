@@ -1,6 +1,6 @@
 import Axios from "axios"
 
-Axios.defaults.baseURL = 'http://localhost:3000/';
+Axios.defaults.baseURL = 'http://freepaper.ru/';
 
 
 export const addNewUser = async (user) => {
