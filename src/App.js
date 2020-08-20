@@ -3,7 +3,7 @@ import 'antd/dist/antd.css';
 import './App.css';
 import { Route, Switch, Redirect } from 'react-router-dom'
 import Post from './components/Post/Post';
-import Home from './components/Home';
+import Home from './components/Pages/Home';
 import Menu from './components/Layout/Menu';
 import Auth from './components/Auth/Auth';
 import { BrowserRouter } from "react-router-dom";
@@ -16,6 +16,7 @@ import { History } from './components/History/History';
 import { Read } from './components/Post/Read';
 import { Profile } from './components/Auth/Profile';
 import { About } from './components/Layout/About';
+import { Policy } from './components/Pages/Policy';
 
 function App() {
 
@@ -46,6 +47,7 @@ function App() {
                             <Route path='/auth' component={Auth} />
                             <Route path='/profile' component={Profile} />
                             <Route path='/about' component={About} />
+                            <Route path='/policy' component={Policy} />
                             <Route render={() => <h1>404 not found</h1>} />
                             <Redirect to={"/"} />
                         </Switch>

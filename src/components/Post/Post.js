@@ -71,7 +71,7 @@ const Post = props => {
     };
 
     return (
-        <>
+        <div className='post'>
             <Animator>
                 <h2>{title ? title : null}</h2>
                 <Textarea
@@ -105,7 +105,7 @@ const Post = props => {
             >
                 <Auth changeVisible={changeVisible} />
             </Modal>
-        </>
+        </div>
 
     )
 }

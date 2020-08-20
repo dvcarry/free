@@ -17,7 +17,6 @@ const Menu = () => {
                 <NavLink to='/answers'>Ответы</NavLink>
             </div>
             <div className='menu_right'>
-                <NavLink to='/about'>О проекте</NavLink>
                 {
                     auth.isAuthenticated
                         ? <NavLink to='/profile'><Avatar icon={<UserOutlined />} /></NavLink>

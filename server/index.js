@@ -8,10 +8,10 @@ const path = require('path');
 
 app.use(express.json())
 
-app.use(express.static(path.join(__dirname, 'build')));
+app.use(express.static(path.join(__dirname, '../build')));
 
 app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+    res.sendFile(path.join(__dirname, '../build', 'index.html'));
 });
 
 app.post("/registration", async (req, res) => {
@@ -53,7 +53,7 @@ app.post("/login", async (req, res) => {
 
         const token = jwt.sign(
             { userId: user.id },
-            config.get('jwtSecret'),
+            process.env.JWTSECRET,
             { expiresIn: '1h' }
         )
 

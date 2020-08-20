@@ -1,17 +1,13 @@
 import React from 'react';
-import Header from './Header';
-import Cards from './Cards/Cards';
+import Cards from '../Cards/Cards';
 
-const Home = ({ questions }) => {
-
+export const Questions = ({ questions }) => {
     return (
         <>
-            <Header />
+            <h1>Выбери вопрос на сегодня</h1>
             {
                 questions && <Cards questions={questions} />
             }
         </>
     )
 }
-
-export default Home
